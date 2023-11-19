@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Klasifikasi Diabetes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-4.1.3-dist/css/bootstrap.min.css')}}">
+    <style>.github-corner:hover .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+
+    @keyframes octocat-wave {
+        0%, 100% {
+            transform: rotate(0)
+        }
+        20%, 60% {
+            transform: rotate(-25deg)
+        }
+        40%, 80% {
+            transform: rotate(10deg)
+        }
+    }
+
+    @media (max-width: 500px) {
+        .github-corner:hover .octo-arm {
+            animation: none
+        }
+
+        .github-corner .octo-arm {
+            animation: octocat-wave 560ms ease-in-out
+        }
+    }</style>
+</head>
+
+<body>
+<div class="container-fluid pt-5">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>Klasifikasi Diabetes</h1>
+        </div>
+    </div>
+    <div class="row pt-4">
+        <div class="col-6 pl-5">
+            <form action="{{ url_for('predict')}}" method="post" id="form-predict">
+                <div class="form-group row col-form-label">
+                    <label class="col-4" for="inputPregnancies">Kehamilan</label>
+                    <div class="col-8">
+                        <input type="number" class="form-control form-control-sm" id="inputPregnancies"
+                               name="Pregnancies"
+                               placeholder="Kehamilan" step=1 required autofocus/>
+                    </div>
+                </div>
+                <div class="form-group row col-form-label">
+                    <label class="col-4" for="inputGlucose">Glukosa</label>
+                    <div class="col-8">
+                        <input type="number" class="form-control form-control-sm" id="inputGlucose" name="Glucose"
+                               placeholder="Glukosa" step=1 required/>
+                    </div>
+                </div>
+                <div class="form-group row col-form-label">
+                    <label class="col-4" for="inputBloodPressure">Tekanan Darah</label>
+                    <div class="col-8">
+                        <input type="number" class="form-control form-control-sm" id="inputBloodPressure"
+                               name="BloodPressure"
+                               placeholder="Tekanan Darah" step=1 required/>
+                    </div>
+                </div>
+                <div class="form-group row col-form-label">
+                    <label class="col-4" for="inputSkinThickness">Ketebalan Kulit</label>
+                    <div class="col-8">
+                        <input type="number" class="form-control form-control-sm" id="inputSkinThickness"
+                               name="SkinThickness"
+                               placeholder="Ketebalan Kulit" step=1 required/>
+                    </div>
+                </div>
+                <div class="form-group row col-form-label">
+                    <label class="col-4" for="inputInsulin">Insulin</label>
+                    <div class="col-8">
+                        <input type="number" class="form-control form-control-sm" id="inputInsulin" name="Insulin"
+                               placeholder="Insulin" step=1 required/>
+                    </div>
+                </div>
+                <div class="form-group row col-form-label">
+                    <label class="col-4" for="inputBMI">BMI</label>
+                    <div class="col-8">
+                        <input type="number" class="form-control form-control-sm" id="inputBMI" name="BMI"
+                               placeholder="BMI" step=0.01 required/>
+                    </div>
+                </div>
+                <div class="form-group row col-form-label">
+                    <label class="col-4" for="inputDiabetesPedigreeFunction">Fungsi Silsilah Diabetes</label>
+                    <div class="col-8">
+                        <input type="number" class="form-control form-control-sm" id="inputDiabetesPedigreeFunction"
+                               name="DiabetesPedigreeFunction"
+                               placeholder="Fungsi Silsilah Diabetes" step=0.001 required/>
+                    </div>
+                </div>
+                <div class="form-group row col-form-label">
+                    <label class="col-4" for="inputAge">Umur</label>
+                    <div class="col-8">
+                        <input type="number" class="form-control form-control-sm" id="inputAge" name="Age"
+                               placeholder="Umur" step=1 required/>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline-danger btn-block">Prediksi</button>
+                </br>
+            </form>
+        </div>
+        <div class="col-6 pr-5">
+            <div class="mb-3">
+                <button class="btn btn-danger" data-toggle="modal" data-target="#howToUseModal">Cara Menggunakan</button>
+               
+            </div>
+
+            <p>
+                Diabetes adalah penyakit kronis yang ditandai dengan ciri-ciri berupa tingginya kadar gula (glukosa) darah. Glukosa merupakan sumber energi utama bagi sel tubuh manusia.
+                Glukosa yang menumpuk di dalam darah akibat tidak diserap sel tubuh dengan baik dapat menimbulkan berbagai gangguan organ tubuh. Jika diabetes tidak dikontrol dengan baik, dapat timbul berbagai komplikasi yang membahayakan nyawa penderita.
+            </p>
+            <p>
+                Kadar gula dalam darah dikendalikan oleh hormon insulin yang diproduksi oleh pankreas, yaitu organ yang terletak di belakang lambung. Pada penderita diabetes, pankreas tidak mampu memproduksi insulin sesuai kebutuhan tubuh. Tanpa insulin, sel-sel tubuh tidak dapat menyerap dan mengolah glukosa menjadi energi.
+                <a href="https://www.alodokter.com/diabetes">(https://www.alodokter.com/diabetes)</a>
+            </p>
+            <p>
+                <b>76.43% <a
+                    href="https://en.wikipedia.org/wiki/Precision_and_recall#Definition_(classification_context)"
+                    target="_blank">Accuracy</a></b>, <b>68.04% <a
+                    href="https://en.wikipedia.org/wiki/Precision_and_recall#Definition_(classification_context)"
+                    target="_blank">Precision</a></b> and <b>61.19% <a
+                    href="https://en.wikipedia.org/wiki/Precision_and_recall#Definition_(classification_context)"
+                    target="_blank">Recall</a>.</b>
+            </p>
+
+            <h5>Features</h5>
+            <ul>
+                <li><b>Kehamilan</b> Jumlah Kehamilan</li>
+                <li><b>Glukosa</b> Konsentrasi glukosa plasma 2 jam dalam tes toleransi glukosa oral</li>
+                <li><b>Tekanan Darah</b> Tekanan darah diastolik (mm Hg)</li>
+                <li><b>Ketebalan Lipatan Kulit</b> Ketebalan lipatan kulit trisep (mm)</li>
+                <li><b>Insulin</b> Insulin serum 2 jam (mu U/ml)</li>
+                <li><b>BMI</b> Indeks massa tubuh (berat dalam kg/(tinggi dalam m)^2)</li>
+                <li><b>Fungsi silsilah diabetes</b> Fungsi silsilah diabetes</li>
+                <li><b>Umur</b> Umur (tahun)</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="howToUseModal" tabindex="-1" role="dialog" aria-labelledby="howToUseModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="howToUseModalLabel">Cara Menggunakan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ol>
+                    <li>Isi Form Yang Telah Tersedia</li>
+                    <li>klik Tombol "Predict"</li>
+                    <li>Dan Hasil Akan Keluar</li>
+                </ol>
+                <button type="button" class="btn btn-danger float-right" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="howToMakeModal" tabindex="-1" role="dialog" aria-labelledby="howToMakeModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="howToMakeModalLabel">How to Make</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img class="img-fluid mb-3" src="{{ url_for('static', filename='img/how-to-make.jpeg')}}">
+                <button type="button" class="btn btn-danger float-right" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="howItWorkModal" tabindex="-1" role="dialog" aria-labelledby="howItWorkModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="howItWorkModalLabel">How it Work</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img class="img-fluid mb-3" src="{{ url_for('static', filename='img/how-it-work.jpeg')}}">
+                <button type="button" class="btn btn-danger float-right" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="developersModal" tabindex="-1" role="dialog" aria-labelledby="developersModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="developersModalLabel">Developers</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6 text-center">
+                        <img class="img-thumbnail rounded-circle mb-2" src="https://www.gravatar.com/avatar/8de42de7c593a9cb6b098c34dbc75920">
+                        <h6>Aditya Rahman</h6>
+                        <p>NIM: 160535611825</p>
+                        <a href="https://www.linkedin.com/in/adityarahman032/">Linkedin</a>
+                    </div>
+                    <div class="col-6 text-center">
+                        <img class="img-thumbnail rounded-circle mb-2" src="https://www.gravatar.com/avatar/12345?d=monsterid">
+                        <h6>Galih Hadi Wibowo</h6>
+                        <p>NIM: 160535611825</p>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-danger float-right" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='bootstrap-4.1.3-dist/js/bootstrap.min.js')}}"></script>
+<script src="{{ url_for('static', filename='sweetalert2-9.4.3/package/dist/sweetalert2.all.min.js')}}"></script>
+
+<script>
+    const formPredict = $('#form-predict');
+
+    formPredict.submit((e) => {
+        e.preventDefault();
+        $.post("{{ url_for('predict')}}", formPredict.serialize(), res => {
+            Swal.fire({
+                icon: res.prediction_text === "1" ? "error" : "success",
+                title: res.prediction_text === "1" ? "Oops..." : "Yass...",
+                text: res.prediction_text === "1" ? "You probably have diabetes, Please contact a doctor" : "You're healthy!!",
+                showCancelButton: true,
+                cancelButtonText: "OK",
+                confirmButtonText: "Show Probability",
+                reverseButtons: true
+            }).then(res_swal => {
+                if (res_swal.value) {
+                    Swal.fire({
+                        title: "Probability",
+                        text: res.proba,
+                        showCancelButton: true,
+                        showConfirmButton: false
+                    });
+                } else {
+                    formPredict.trigger("reset");
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
